@@ -1,25 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{{ url_for('feeling') }}" method="post" class="mt-5">
-    <h3>What are you feeling like today?</h3>
+<form action="{{ url_for('choose_location') }}" method="post" class="mt-5">
+    <h3>How are you feeling today?</h3>
     <div class="form-group">
-        <button type="button" class="btn btn-outline-primary">Japanese</button>
-        <button type="button" class="btn btn-outline-primary">Western</button>
-        <button type="button" class="btn btn-outline-primary">Chinese</button>
-        <button type="button" class="btn btn-outline-primary">Indian</button>
+        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Happy">Happy</button>
+        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Adventurous">Adventurous</button>
+        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Relaxed">Relaxed</button>
     </div>
+    <input type="hidden" name="feeling" id="feeling">
+    <h3>What is your budget?</h3>
     <div class="form-group">
-        <label for="custom_food">Want something else?</label>
-        <input type="text" name="custom_food" class="form-control" id="custom_food">
+        <button type="button" class="btn btn-outline-primary price-option" data-value="¥">¥</button>
+        <button type="button" class="btn btn-outline-primary price-option" data-value="¥¥">¥¥</button>
+        <button type="button" class="btn btn-outline-primary price-option" data-value="¥¥¥">¥¥¥</button>
     </div>
-    <div class="form-group">
-        <label for="budget">How much would you like to spend?</label>
-        <div>
-            <button type="button" class="btn btn-outline-primary">¥</button>
-            <button type="button" class="btn btn-outline-primary">¥¥</button>
-            <button type="button" class="btn btn-outline-primary">¥¥¥</button>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">I'm feeling hungry!</button>
+    <input type="hidden" name="price" id="price">
+    <button type="submit" class="btn btn-primary mt-3">Next</button>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const feelingOptions = document.querySelectorAll('.feeling-option');
+    const priceOptions = document.querySelectorAll('.price-option');
+    const feelingInput = document.getElementById('feeling');
+    const priceInput = document.getElementById('price');
+
+    feelingOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            feelingOptions.forEach(btn => btn.classList.remove('active'));
+            option.classList.add('active');
+            feelingInput.value = option.getAttribute('data-value');
+        });
+    });
+
+    priceOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            priceOptions.forEach(btn => btn.classList.remove('active'));
+            option.classList.add('active');
+            priceInput.value = option.getAttribute('data-value');
+        });
+    });
+});
+</script>
 {% endblock %}

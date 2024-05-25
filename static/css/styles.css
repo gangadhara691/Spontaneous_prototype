@@ -41,5 +41,9 @@ body {
     background-color: #000;
     border-radius: .25rem;
 }
+.btn-outline-primary.active {
+    background-color: #007bff;
+    color: white;
+}
 
 
