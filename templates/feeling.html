@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('feeling') }}" method="post" class="mt-5">
+    <h3>What are you feeling like today?</h3>
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-primary">Japanese</button>
+        <button type="button" class="btn btn-outline-primary">Western</button>
+        <button type="button" class="btn btn-outline-primary">Chinese</button>
+        <button type="button" class="btn btn-outline-primary">Indian</button>
+    </div>
+    <div class="form-group">
+        <label for="custom_food">Want something else?</label>
+        <input type="text" name="custom_food" class="form-control" id="custom_food">
+    </div>
+    <div class="form-group">
+        <label for="budget">How much would you like to spend?</label>
+        <div>
+            <button type="button" class="btn btn-outline-primary">¥</button>
+            <button type="button" class="btn btn-outline-primary">¥¥</button>
+            <button type="button" class="btn btn-outline-primary">¥¥¥</button>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">I'm feeling hungry!</button>
+</form>
+{% endblock %}

@@ -1,0 +1,45 @@
+body {
+    padding-top: 56px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    width: 100%;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+.discount-details {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tooltip-inner {
+    max-width: 200px;
+    padding: .25rem .5rem;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    border-radius: .25rem;
+}
+
+

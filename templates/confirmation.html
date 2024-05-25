@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-5">
+    <h3>Most of us want...</h3>
+    <p>Restaurant: {{ selected_restaurant }}</p>
+    <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="Enjoy 5% off all beverages for dine-in customers only!">Discount Details</span>
+    <a href="menu.pdf" class="btn btn-outline-primary mt-3">Menu.pdf</a>
+    <div class="mt-3">
+        <h4>Your profile</h4>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item" href="#">Name: John Doe</a></li>
+                <li><a class="dropdown-item" href="#">Interests: Chinese, Japanese, Hiking</a></li>
+                <li><a class="dropdown-item" href="#">Location: Tokyo</a></li>
+            </ul>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary mt-3">Make a reservation</button>
+    <button type="button" class="btn btn-secondary mt-3">Directions</button>
+</div>
+<script>
+$(document).ready(function(){
+  $('[data-bs-toggle="tooltip"]').tooltip();   
+});
+</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-5">
+    <h3>You chose: {{ selected_restaurant }}</h3>
+    <h4 class="mt-3">Now vote for a winner!</h4>
+    <form action="{{ url_for('vote_winner') }}" method="post">
+        <div class="form-group">
+            <label>
+                <input type="radio" name="winner" value="Restaurant A" checked>
+                Restaurant A (500m, 4.5 stars)
+            </label>
+            <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="Enjoy 5% off all beverages for dine-in customers only!">Discount Details</span>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="radio" name="winner" value="Restaurant D">
+                Restaurant D (300m, 4.2 stars)
+            </label>
+            <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="Enjoy 10% off on all orders above ¥5000!">Discount Details</span>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="radio" name="winner" value="Restaurant E">
+                Restaurant E (500m, 4.8 stars)
+            </label>
+            <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="Get a free dessert with every meal!">Discount Details</span>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Vote</button>
+    </form>
+</div>
+<script>
+$(document).ready(function(){
+  $('[data-bs-toggle="tooltip"]').tooltip();   
+});
+</script>
+{% endblock %}

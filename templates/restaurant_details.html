@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-5">
+    <h3>Restaurant A</h3>
+    <p>500m, 4.5 stars</p>
+    <img src="path/to/image.jpg" alt="Restaurant A" class="img-fluid">
+    <a href="menu.pdf" class="btn btn-outline-primary">Menu.pdf</a>
+    <div class="mt-3">
+        <h4>See what people think...</h4>
+        <p><strong>Thumapak Pitta:</strong> I had a great experience here! The food was delicious and the service was excellent...</p>
+    </div>
+    <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='{{ url_for('vote_winner') }}'">Looks delicious!</button>
+</div>
+{% endblock %}

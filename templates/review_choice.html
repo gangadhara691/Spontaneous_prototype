@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('review_choice') }}" method="post" class="mt-5">
+    <h3>Review Your Choice</h3>
+    <p>Location: Shibuya</p>
+    <p>Cost: ¥3000</p>
+    <p>Cuisine: Chinese</p>
+    <p>Restaurant: Restaurant 1</p>
+    <p>Dish: Dish 1</p>
+    <button type="submit" class="btn btn-primary mt-3">Looks Delicious!</button>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Back</button>
+</form>
+{% endblock %}

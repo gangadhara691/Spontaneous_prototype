@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1>EatEasy</h1>
+    <p>Hangouts, hassle-free</p>
+    <a href="{{ url_for('create_group') }}" class="btn btn-primary">Create Group</a>
+    <form action="{{ url_for('join_group') }}" method="get" class="mt-3">
+        <input type="text" name="group_name" class="form-control" placeholder="Enter Group Name Here">
+        <button type="submit" class="btn btn-secondary mt-2">Join Group Here</button>
+    </form>
+</div>
+{% endblock %}

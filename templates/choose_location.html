@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('choose_location') }}" method="post" class="mt-5">
+    <h3>You chose:</h3>
+    <p>Location: Shinjuku</p>
+    <p>Cost: ¥¥¥</p>
+    <p>Cuisine: Chinese</p>
+    <div class="form-group">
+        <label for="restaurant">Now, choose your favourite!</label>
+        <div>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalA">Restaurant A (500m, 4.5 stars)</button>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalB">Restaurant B (1km, 4.1 stars)</button>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalC">Restaurant C (300m, 4.0 stars)</button>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Next</button>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
+</form>
+
+<!-- Modals -->
+<div class="modal fade" id="restaurantModalA" tabindex="-1" aria-labelledby="restaurantModalLabelA" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restaurantModalLabelA">Restaurant A Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="path/to/image.jpg" alt="Restaurant A" class="img-fluid">
+                <p>500m, 4.5 stars</p>
+                <a href="menu.pdf" class="btn btn-outline-primary mt-2">Menu.pdf</a>
+                <div class="mt-3">
+                    <h4>See what people think...</h4>
+                    <div class="review">
+                        <p><strong>Thumapak Pitta:</strong> I had a great experience here! The food was delicious and the service was excellent...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant A')">Looks delicious!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="restaurantModalB" tabindex="-1" aria-labelledby="restaurantModalLabelB" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restaurantModalLabelB">Restaurant B Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="path/to/image.jpg" alt="Restaurant B" class="img-fluid">
+                <p>1km, 4.1 stars</p>
+                <a href="menu.pdf" class="btn btn-outline-primary mt-2">Menu.pdf</a>
+                <div class="mt-3">
+                    <h4>See what people think...</h4>
+                    <div class="review">
+                        <p><strong>John Doe:</strong> The ambiance was great, and the food was fantastic. Will visit again...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant B')">Looks delicious!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="restaurantModalC" tabindex="-1" aria-labelledby="restaurantModalLabelC" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restaurantModalLabelC">Restaurant C Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="path/to/image.jpg" alt="Restaurant C" class="img-fluid">
+                <p>300m, 4.0 stars</p>
+                <a href="menu.pdf" class="btn btn-outline-primary mt-2">Menu.pdf</a>
+                <div class="mt-3">
+                    <h4>See what people think...</h4>
+                    <div class="review">
+                        <p><strong>Jane Doe:</strong> Good value for money. The food was tasty, and the service was prompt...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant C')">Looks delicious!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function submitForm(restaurant) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ url_for("choose_location") }}';
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'restaurant';
+    input.value = restaurant;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+{% endblock %}

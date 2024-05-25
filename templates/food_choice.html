@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('food_choice') }}" method="post" class="mt-5">
+    <h3>Choose a dish:</h3>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="food" value="Dish 1" id="dish1" required>
+        <label class="form-check-label" for="dish1">Dish 1</label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="food" value="Dish 2" id="dish2" required>
+        <label class="form-check-label" for="dish2">Dish 2</label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="food" value="Dish 3" id="dish3" required>
+        <label class="form-check-label" for="dish3">Dish 3</label>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">I Love This!</button>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Back</button>
+</form>
+{% endblock %}
