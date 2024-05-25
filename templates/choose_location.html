@@ -2,9 +2,9 @@
 {% block content %}
 <form action="{{ url_for('choose_location') }}" method="post" class="mt-5">
     <h3>You chose:</h3>
-    <p>Location: Shinjuku</p>
-    <p>Cost: ¥¥¥</p>
-    <p>Cuisine: Chinese</p>
+    <p>Location: {{ location }}</p>
+    <p>Cost: {{ price }}</p>
+    <p>Cuisine: {{ cuisine }}</p>
     <div class="form-group">
         <label for="restaurant">Now, choose your favourite!</label>
         <div>
@@ -13,6 +13,7 @@
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalC">Restaurant C (300m, 4.0 stars)</button>
         </div>
     </div>
+    <input type="hidden" name="restaurant" id="selectedRestaurant">
     <button type="submit" class="btn btn-primary mt-3">Next</button>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
 </form>
@@ -37,8 +38,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Next</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant A')">Looks delicious! &#x2192;</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant A')">Looks delicious!</button>
             </div>
         </div>
     </div>
@@ -63,8 +65,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalC" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Next</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant B')">Looks delicious! &#x2192;</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalA" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalC" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant B')">Looks delicious!</button>
             </div>
         </div>
     </div>
@@ -89,13 +92,19 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant C')">Looks delicious! &#x2192;</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalA" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant C')">Looks delicious!</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+function selectRestaurant(restaurant) {
+    document.getElementById('selectedRestaurant').value = restaurant;
+}
+
 function submitForm(restaurant) {
     var form = document.createElement('form');
     form.method = 'POST';

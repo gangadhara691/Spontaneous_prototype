@@ -1,22 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{{ url_for('choose_location') }}" method="post" class="mt-5">
-    <h3>How are you feeling today?</h3>
-    <div class="form-group">
-        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Happy">Happy</button>
-        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Adventurous">Adventurous</button>
-        <button type="button" class="btn btn-outline-primary feeling-option" data-value="Relaxed">Relaxed</button>
+<form action="{{ url_for('feeling') }}" method="post" class="mt-5">
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='eateasy-icon.png') }}" alt="EatEasy Logo" width="100" height="100">
+    </div>
+    <h3 class="text-center">What are you feeling like today?</h3>
+    <p class="text-center">Top choices near you include...</p>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Japanese">Japanese</button>
+        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Western">Western</button>
+    </div>
+    <div class="d-flex justify-content-center my-2">
+        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Chinese">Chinese</button>
+        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Indian</button>
+    </div>
+    <div class="text-center mt-4">
+        <p>Want something else?</p>
+        <input type="text" class="form-control w-50 mx-auto" name="other_choice" id="other_choice">
+    </div>
+    <h3 class="text-center mt-4">How much would you like to spend?</h3>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥">¥</button>
+        <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥¥">¥¥</button>
+        <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥¥¥">¥¥¥</button>
+    </div>
+    <div class="text-center mt-4">
+        <h4>Ready to discover your next meal?</h4>
+        <button type="submit" class="btn btn-danger">I'm feeling hungry!</button>
     </div>
     <input type="hidden" name="feeling" id="feeling">
-    <h3>What is your budget?</h3>
-    <div class="form-group">
-        <button type="button" class="btn btn-outline-primary price-option" data-value="¥">¥</button>
-        <button type="button" class="btn btn-outline-primary price-option" data-value="¥¥">¥¥</button>
-        <button type="button" class="btn btn-outline-primary price-option" data-value="¥¥¥">¥¥¥</button>
-    </div>
     <input type="hidden" name="price" id="price">
-    <button type="submit" class="btn btn-primary mt-3">Next</button>
-    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
 </form>
 
 <script>

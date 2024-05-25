@@ -2,29 +2,19 @@
 {% block content %}
 <div class="mt-5">
     <h3>Most of us want...</h3>
-    <p>Restaurant: {{ selected_restaurant }}</p>
-    <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="Enjoy 5% off all beverages for dine-in customers only!">Discount Details</span>
-    <a href="{{ url_for('static', filename='menu.pdf') }}" class="btn btn-outline-primary mt-3">Menu.pdf</a>
-    <div class="mt-3">
-        <h4>Your profile</h4>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ url_for('static', filename='profile-icon.png') }}" alt="Profile Icon" width="30" height="30" class="rounded-circle">
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Account</a></li>
-                <li><a class="dropdown-item" href="#">Interests</a></li>
-                <li><a class="dropdown-item" href="#">Friends</a></li>
-            </ul>
-        </div>
+    <h4 class="mt-3">Restaurant: {{ selected_restaurant }}</h4>
+    <div id="map-container" style="height: 400px; width: 100%;">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30826.463738028924!2d139.68440266280209!3d35.69588701949569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188ce7f6540001%3A0xd5ccc7bdd00e1c3!2sSamurai%20Gyoza%20Restaurant!5e0!3m2!1sen!2sjp!4v1716640646378!5m2!1sen!2sjp" 
+            width="100%" 
+            height="400" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
     </div>
-    <button type="button" class="btn btn-primary mt-3">Make a reservation</button>
-    <button type="button" class="btn btn-secondary mt-3">Directions</button>
+    <button type="button" class="btn btn-primary mt-3">Make a Reservation</button>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
 </div>
-<script>
-$(document).ready(function(){
-  $('[data-bs-toggle="tooltip"]').tooltip();   
-});
-</script>
 {% endblock %}
