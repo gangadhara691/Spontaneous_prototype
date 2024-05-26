@@ -80,7 +80,7 @@ def choose_location():
                 if os.path.exists(os.path.join(image_dir, image_path)):
                     images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
                     break
-                else:
+                elif os.path.exists(os.path.join("/home/ganga008/Spontaneous_prototype/"+image_dir, image_path)):
                     images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
         print(images)
     
