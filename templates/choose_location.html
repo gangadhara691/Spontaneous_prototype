@@ -1,110 +1,118 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{{ url_for('choose_location') }}" method="post" class="mt-5">
+<div class="container mt-5">
     <h3>You chose:</h3>
     <p>Location: {{ location }}</p>
     <p>Cost: {{ price }}</p>
     <p>Cuisine: {{ cuisine }}</p>
-    <div class="form-group">
-        <label for="restaurant">Now, choose your favourite!</label>
-        <div>
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalA">Restaurant A (500m, 4.5 stars)</button>
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalB">Restaurant B (1km, 4.1 stars)</button>
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalC">Restaurant C (300m, 4.0 stars)</button>
-        </div>
-    </div>
-    <input type="hidden" name="restaurant" id="selectedRestaurant">
-    <button type="submit" class="btn btn-primary mt-3">Next</button>
-    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
-</form>
-
-<!-- Modals -->
-<div class="modal fade" id="restaurantModalA" tabindex="-1" aria-labelledby="restaurantModalLabelA" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabelA">Restaurant A Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="{{ url_for('static', filename='restaurant-a.jpg') }}" alt="Restaurant A" class="img-fluid">
-                <p>500m, 4.5 stars</p>
-                <a href="{{ url_for('static', filename='menu.pdf') }}" class="btn btn-outline-primary mt-2">Menu.pdf</a>
-                <div class="mt-3">
-                    <h4>See what people think...</h4>
-                    <div class="review">
-                        <p><strong>Thumapak Pitta:</strong> I had a great experience here! The food was delicious and the service was excellent...</p>
+    <form action="{{ url_for('choose_location') }}" method="post">
+        <div class="form-group">
+            <label for="restaurant">Now, choose your favourite!</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ url_for('static', filename=images[0][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Restaurant {{ images[0][2] }} ({{ images[0][1] }} stars)</h5>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal1">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ url_for('static', filename=images[1][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Restaurant {{ images[1][2] }} ({{ images[1][1] }} stars)</h5>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal2">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ url_for('static', filename=images[2][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Restaurant {{ images[2][2] }} ({{ images[2][1] }} stars)</h5>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal3">
+                                View Details
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <input type="hidden" name="restaurant" id="selectedRestaurant">
+    </form>
+    <a href="{{ url_for('feeling') }}" class="btn btn-secondary mt-3">Back</a>
+</div>
+
+<!-- Modal 1 -->
+<div class="modal fade" id="restaurantModal1" tabindex="-1" aria-labelledby="restaurantModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restaurantModalLabel1">Restaurant {{ images[0][2] }} Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ url_for('static', filename=images[0][0]) }}" alt="Restaurant {{ images[0][2] }}" class="img-fluid">
+                <p>Some details about Restaurant {{ images[0][2] }}...</p>
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant A')">Looks delicious!</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal3')">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal2')">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[0][2] }}')">Looks delicious!</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="restaurantModalB" tabindex="-1" aria-labelledby="restaurantModalLabelB" aria-hidden="true">
+<!-- Modal 2 -->
+<div class="modal fade" id="restaurantModal2" tabindex="-1" aria-labelledby="restaurantModalLabel2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabelB">Restaurant B Details</h5>
+                <h5 class="modal-title" id="restaurantModalLabel2">Restaurant {{ images[1][2] }} Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{ url_for('static', filename='restaurant-b.jpg') }}" alt="Restaurant B" class="img-fluid">
-                <p>1km, 4.1 stars</p>
-                <a href="{{ url_for('static', filename='menu.pdf') }}" class="btn btn-outline-primary mt-2">Menu.pdf</a>
-                <div class="mt-3">
-                    <h4>See what people think...</h4>
-                    <div class="review">
-                        <p><strong>John Doe:</strong> The ambiance was great, and the food was fantastic. Will visit again...</p>
-                    </div>
-                </div>
+                <img src="{{ url_for('static', filename=images[1][0]) }}" alt="Restaurant {{ images[1][2] }}" class="img-fluid">
+                <p>Some details about Restaurant {{ images[1][2] }}...</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalA" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalC" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant B')">Looks delicious!</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal1')">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal3')">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[1][2] }}')">Looks delicious!</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="restaurantModalC" tabindex="-1" aria-labelledby="restaurantModalLabelC" aria-hidden="true">
+<!-- Modal 3 -->
+<div class="modal fade" id="restaurantModal3" tabindex="-1" aria-labelledby="restaurantModalLabel3" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabelC">Restaurant C Details</h5>
+                <h5 class="modal-title" id="restaurantModalLabel3">Restaurant {{ images[2][2] }} Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{ url_for('static', filename='restaurant-c.jpg') }}" alt="Restaurant C" class="img-fluid">
-                <p>300m, 4.0 stars</p>
-                <a href="{{ url_for('static', filename='menu.pdf') }}" class="btn btn-outline-primary mt-2">Menu.pdf</a>
-                <div class="mt-3">
-                    <h4>See what people think...</h4>
-                    <div class="review">
-                        <p><strong>Jane Doe:</strong> Good value for money. The food was tasty, and the service was prompt...</p>
-                    </div>
-                </div>
+                <img src="{{ url_for('static', filename=images[2][0]) }}" alt="Restaurant {{ images[2][2] }}" class="img-fluid">
+                <p>Some details about Restaurant {{ images[2][2] }}...</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalB" data-bs-toggle="modal" data-bs-dismiss="modal">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-target="#restaurantModalA" data-bs-toggle="modal" data-bs-dismiss="modal">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant C')">Looks delicious!</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal2')">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal1')">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[2][2] }}')">Looks delicious!</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-function selectRestaurant(restaurant) {
-    document.getElementById('selectedRestaurant').value = restaurant;
-}
-
 function submitForm(restaurant) {
     var form = document.createElement('form');
     form.method = 'POST';
@@ -116,6 +124,11 @@ function submitForm(restaurant) {
     form.appendChild(input);
     document.body.appendChild(form);
     form.submit();
+}
+
+function openModal(modalId) {
+    var modal = new bootstrap.Modal(document.querySelector(modalId));
+    modal.show();
 }
 </script>
 {% endblock %}
