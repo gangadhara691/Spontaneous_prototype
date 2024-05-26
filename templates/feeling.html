@@ -1,18 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+<h1 class="text-center">Feeling Preferences for Group: {{ session.get('group') }}</h1>
 <form action="{{ url_for('feeling') }}" method="post" class="mt-5">
     <div class="text-center">
         <img src="{{ url_for('static', filename='eateasy-icon.png') }}" alt="EatEasy Logo" width="100" height="100">
     </div>
     <h3 class="text-center">What are you feeling like today?</h3>
     <p class="text-center">Top choices near you include...</p>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Japanese">Japanese</button>
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Western">Western</button>
-    </div>
-    <div class="d-flex justify-content-center my-2">
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Chinese">Chinese</button>
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Indian</button>
+    <div class="d-flex justify-content-center flex-wrap">
+        {% for cuisine in cuisines %}
+        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="{{ cuisine }}">{{ cuisine | capitalize }}</button>
+        {% endfor %}
     </div>
     <div class="text-center mt-4">
         <p>Want something else?</p>
@@ -23,6 +21,10 @@
         <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥">¥</button>
         <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥¥">¥¥</button>
         <button type="button" class="btn btn-outline-primary mx-2 price-option" data-value="¥¥¥">¥¥¥</button>
+    </div>
+    <div class="text-center mt-4">
+        <h4>Enter search radius (meters):</h4>
+        <input type="number" class="form-control w-25 mx-auto" name="radius" id="radius" required>
     </div>
     <div class="text-center mt-4">
         <h4>Ready to discover your next meal?</h4>
