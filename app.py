@@ -81,7 +81,7 @@ def choose_location():
                     images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
                     break
                 else:
-                    images.append((f'/home/ganga008/Spontaneous_prototype/static/{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
+                    images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
         print(images)
     
     # Sort images by rating
