@@ -76,9 +76,11 @@ def choose_location():
         for i in ['A', 'B', 'C']:
             for ext in ['jpg', 'jpeg', 'webp']:
                 image_path = f'res-{mapped_price}-{mapped_cuisine}-{i}.{ext}'
+                print(image_path)
                 if os.path.exists(os.path.join(image_dir, image_path)):
                     images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
                     break
+        print(images)
     
     # Sort images by rating
     images.sort(key=lambda x: x[1], reverse=True)
