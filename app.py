@@ -72,11 +72,11 @@ def choose_location():
     
     images = []
     if mapped_price and mapped_cuisine:
-        image_dir = os.path.join('static', mapped_cuisine)
+        image_dir = os.path.join('static', mapped_cuisine).replace("\\","/")
         for i in ['A', 'B', 'C']:
             for ext in ['jpg', 'jpeg', 'webp']:
                 image_path = f'res-{mapped_price}-{mapped_cuisine}-{i}.{ext}'
-                print(image_path)
+                print(image_dir,image_path)
                 if os.path.exists(os.path.join(image_dir, image_path)):
                     images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i))
                     break
