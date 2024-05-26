@@ -20,6 +20,7 @@ cuisine_mapping = {
 
 @app.route('/')
 def home():
+    session['group_name'] = request.form.get('group_name')
     return render_template('home.html')
 
 @app.route('/create_group', methods=['GET', 'POST'])
