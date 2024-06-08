@@ -23,11 +23,19 @@ cuisine_mapping = {
 
 # Function to load API keys from a JSON file
 def load_api_keys(json_file):
-    with open(json_file, 'r') as file:
+    # First, check if the file exists in the current directory
+    if os.path.exists(json_file):
+        file_path = json_file
+    # If not, check the specified path
+    elif os.path.exists(os.path.join('/home/ganga008/Spontaneous_prototype', json_file)):
+        file_path = os.path.join('/home/ganga008/Spontaneous_prototype', json_file)
+    else:
+        raise FileNotFoundError(f"API keys file {json_file} not found in the current directory or /home/ganga008/Spontaneous_prototype/")
+    
+    with open(file_path, 'r') as file:
         config = json.load(file)
-    print(f"Loaded API keys")
+    print(f"Loaded API keys from {file_path}")
     return config['API_KEY'], config['OPENAI_API_KEY']
-
 # Load the API keys
 API_KEY, OPENAI_API_KEY = load_api_keys('api.json')
 
