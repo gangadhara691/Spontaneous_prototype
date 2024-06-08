@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{{ url_for('feeling') }}" method="post" class="mt-5" id="feelingForm">
+<form action="{{ url_for('feeling_alt') }}" method="post" class="mt-5" id="feelingAltForm">
     <div class="text-center">
         <img src="{{ url_for('static', filename='eateasy-icon.png') }}" alt="EatEasy Logo" width="100" height="100">
     </div>
     <h3 class="text-center">What are you feeling like today?</h3>
-    <p class="text-center">Top choices near you include...</p>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Japanese">Japanese</button>
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Western">Western</button>
-    </div>
-    <div class="d-flex justify-content-center my-2">
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Chinese">Chinese</button>
-        <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Indian</button>
+    <div class="text-center mt-4">
+        <input type="text" class="form-control w-50 mx-auto" name="other_choice" id="other_choice" placeholder="e.g., Jamaican, Spanish...">
     </div>
     <div class="text-center mt-4">
-        <button type="submit" class="btn btn-secondary" onclick="setFormAction('feeling_alt')">Want something else?</button>
+        <p>You previously liked...</p>
+        <div class="d-flex justify-content-center my-2">
+            <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">French</button>
+            <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Indian</button>
+        </div>
+        <div class="d-flex justify-content-center my-2">
+            <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Taiwanese</button>
+            <button type="button" class="btn btn-outline-primary mx-2 feeling-option" data-value="Indian">Pakistani</button>
+        </div>
     </div>
     <div class="text-center mt-4">
         <h3 style="margin-bottom: 20px;">How much would you like to spend?</h3>
@@ -32,17 +34,18 @@
     </div>
     <div class="text-center mt-4">
         <h4>Ready to discover your next meal?</h4>
-        <button type="submit" class="btn btn-danger" onclick="setFormAction('feeling')">I'm feeling hungry!</button>
+        <button type="submit" class="btn btn-danger">I'm feeling hungry!</button>
     </div>
     <input type="hidden" name="feeling" id="feeling">
     <input type="hidden" name="priceValue" id="priceValue" value="7000">
-    <input type="hidden" name="action" id="formAction" value="feeling">
+    <input type="hidden" name="action" id="formAction" value="feeling_alt">
 </form>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const feelingOptions = document.querySelectorAll('.feeling-option');
     const feelingInput = document.getElementById('feeling');
+    const otherChoiceInput = document.getElementById('other_choice');
     const priceInput = document.getElementById('price');
     const tooltip = document.getElementById('tooltip');
     const priceSymbols = [
@@ -57,7 +60,17 @@ document.addEventListener('DOMContentLoaded', function() {
             feelingOptions.forEach(btn => btn.classList.remove('active'));
             option.classList.add('active');
             feelingInput.value = option.getAttribute('data-value');
+            otherChoiceInput.value = ''; // Clear text input when a button is clicked
         });
+    });
+
+    otherChoiceInput.addEventListener('focus', function() {
+        feelingOptions.forEach(btn => btn.classList.remove('active'));
+        feelingInput.value = '';
+    });
+
+    otherChoiceInput.addEventListener('input', function() {
+        feelingInput.value = otherChoiceInput.value;
     });
 
     priceInput.addEventListener('input', function() {
@@ -88,10 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePriceLabel(priceInput.value); // Initialize on page load
     updateTooltip(priceInput); // Initialize tooltip on page load
 });
-
-function setFormAction(action) {
-    document.getElementById('formAction').value = action;
-}
 </script>
 
 <style>
@@ -115,10 +124,8 @@ function setFormAction(action) {
     color: #fff;
     padding: 5px 10px;
     border-radius: 5px;
-    font-size: 14px;
-    white-space: nowrap;
-    pointer-events: none;
-    transform: translateX(-50%);
+    font-size: 0.9em;
+    display: none;
 }
 </style>
 {% endblock %}

@@ -5,43 +5,31 @@
     <p>Location: {{ location }}</p>
     <p>Cost: {{ price }}</p>
     <p>Cuisine: {{ cuisine }}</p>
+    <div class="form-group">
+        <label for="filter">Filter by:</label>
+        <select class="form-select" id="filter" onchange="applyFilter()">
+            <option value="nearest">Nearest to you</option>
+            <option value="seats">Seat availability</option>
+            <option value="price">Price</option>
+        </select>
+    </div>
     <form action="{{ url_for('choose_location') }}" method="post">
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label for="restaurant">Now, choose your favourite!</label>
-            <div class="row">
+            <div class="row" id="restaurant-list">
+                {% for image, rating, restaurant, distance, price in images %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="{{ url_for('static', filename=images[0][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
+                        <img src="{{ url_for('static', filename=image) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
-                            <h5 class="card-title">Restaurant {{ images[0][2] }} ({{ images[0][1] }} stars)</h5>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal1">
-                                View Details
-                            </button>
+                            <span class="badge {{ 'bg-warning' if restaurant_seat_availability[restaurant] == 'Limited seating' else 'bg-success' }}">{{ restaurant_seat_availability[restaurant] }}</span>
+                            <h5 class="card-title">Restaurant {{ restaurant }}</h5>
+                            <p>{{ distance }}, {{ rating }} stars, {{ price }}</p>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal{{ loop.index }}">View Details</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ url_for('static', filename=images[1][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Restaurant {{ images[1][2] }} ({{ images[1][1] }} stars)</h5>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal2">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ url_for('static', filename=images[2][0]) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Restaurant {{ images[2][2] }} ({{ images[2][1] }} stars)</h5>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal3">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <input type="hidden" name="restaurant" id="selectedRestaurant">
@@ -49,68 +37,38 @@
     <a href="{{ url_for('feeling') }}" class="btn btn-secondary mt-3">Back</a>
 </div>
 
-<!-- Modal 1 -->
-<div class="modal fade" id="restaurantModal1" tabindex="-1" aria-labelledby="restaurantModalLabel1" aria-hidden="true">
+{% for image, rating, restaurant, distance, price in images %}
+<!-- Modal {{ loop.index }} -->
+<div class="modal fade" id="restaurantModal{{ loop.index }}" tabindex="-1" aria-labelledby="restaurantModalLabel{{ loop.index }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabel1">Restaurant {{ images[0][2] }} Details</h5>
+                <h5 class="modal-title" id="restaurantModalLabel{{ loop.index }}">
+                    <span class="badge {{ 'bg-warning' if restaurant_seat_availability[restaurant] == 'Limited seating' else 'bg-success' }}">{{ restaurant_seat_availability[restaurant] }}</span>
+                    Restaurant {{ restaurant }}
+                    <span class="badge bg-primary">{{ price }}</span>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{ url_for('static', filename=images[0][0]) }}" alt="Restaurant {{ images[0][2] }}" class="img-fluid">
-                <p>Some details about Restaurant {{ images[0][2] }}...</p>
+                <img src="{{ url_for('static', filename=image) }}" alt="Restaurant {{ restaurant }}" class="img-fluid">
+                <p>Some details about Restaurant {{ restaurant }}...</p>
+                <h6>See what people think...</h6>
+                <div class="review">
+                    <p><strong>John Doe:</strong> Great experience! The food was amazing and the service was excellent...</p>
+                    <p><strong>Jane Smith:</strong> Loved the ambiance and the food. Would definitely recommend...</p>
+                    <p><strong>Michael Brown:</strong> Decent place, but the service could be improved...</p>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal3')">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal2')">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[0][2] }}')">Looks delicious!</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ (loop.index0 - 1) % 3 + 1 }}')">&#x2190; Previous</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ (loop.index0 + 1) % 3 + 1 }}')">Next &#x2192;</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ restaurant }}')">Looks delicious!</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal 2 -->
-<div class="modal fade" id="restaurantModal2" tabindex="-1" aria-labelledby="restaurantModalLabel2" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabel2">Restaurant {{ images[1][2] }} Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="{{ url_for('static', filename=images[1][0]) }}" alt="Restaurant {{ images[1][2] }}" class="img-fluid">
-                <p>Some details about Restaurant {{ images[1][2] }}...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal1')">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal3')">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[1][2] }}')">Looks delicious!</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal 3 -->
-<div class="modal fade" id="restaurantModal3" tabindex="-1" aria-labelledby="restaurantModalLabel3" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="restaurantModalLabel3">Restaurant {{ images[2][2] }} Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="{{ url_for('static', filename=images[2][0]) }}" alt="Restaurant {{ images[2][2] }}" class="img-fluid">
-                <p>Some details about Restaurant {{ images[2][2] }}...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal2')">&#x2190; Previous</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal1')">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ images[2][2] }}')">Looks delicious!</button>
-            </div>
-        </div>
-    </div>
-</div>
+{% endfor %}
 
 <script>
 function submitForm(restaurant) {
@@ -129,6 +87,34 @@ function submitForm(restaurant) {
 function openModal(modalId) {
     var modal = new bootstrap.Modal(document.querySelector(modalId));
     modal.show();
+}
+
+function applyFilter() {
+    const filter = document.getElementById('filter').value;
+    let sortedRestaurants = [];
+    if (filter === 'nearest') {
+        sortedRestaurants = [...document.querySelectorAll('#restaurant-list .col-md-4')].sort((a, b) => {
+            const distanceA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[2]);
+            const distanceB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[2]);
+            return distanceA - distanceB;
+        });
+    } else if (filter === 'seats') {
+        sortedRestaurants = [...document.querySelectorAll('#restaurant-list .col-md-4')].sort((a, b) => {
+            const seatsA = a.querySelector('.badge').classList.contains('bg-warning') ? 0 : 1;
+            const seatsB = b.querySelector('.badge').classList.contains('bg-warning') ? 0 : 1;
+            return seatsB - seatsA;
+        });
+    } else if (filter === 'price') {
+        sortedRestaurants = [...document.querySelectorAll('#restaurant-list .col-md-4')].sort((a, b) => {
+            const priceA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[3]);
+            const priceB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[3]);
+            return priceA - priceB;
+        });
+    }
+
+    const restaurantList = document.getElementById('restaurant-list');
+    restaurantList.innerHTML = '';
+    sortedRestaurants.forEach(restaurant => restaurantList.appendChild(restaurant));
 }
 </script>
 {% endblock %}
