@@ -1,25 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
-import requests
 import json
+import random
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
-# Mapping for price and cuisine
-price_mapping = {
-    '¥': '1',
-    '¥¥': '2',
-    '¥¥¥': '3',
-    '¥¥¥¥': '3'
-}
-
-cuisine_mapping = {
-    'Indian': 'ind',
-    'Western': 'wes',
-    'Japanese': 'jap',
-    'Chinese': 'chi'
-}
+# Load restaurant details from JSON
+with open('restaurant_details.json', 'r') as f:
+    restaurant_details = json.load(f)
 
 # Function to load API keys from a JSON file
 def load_api_keys(json_file):
@@ -36,29 +25,28 @@ def load_api_keys(json_file):
         config = json.load(file)
     print(f"Loaded API keys from {file_path}")
     return config['API_KEY'], config['OPENAI_API_KEY']
+
 # Load the API keys
 API_KEY, OPENAI_API_KEY = load_api_keys('api.json')
 
 # In-memory storage for user interests and locations
 rooms = {}
 
-def get_coordinates(city_name, api_key):
-    url = f"https://maps.googleapis.com/maps/api/geocode/json?address={city_name}&key={api_key}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        if data['results']:
-            location = data['results'][0]['geometry']['location']
-            print(f"Coordinates for {city_name}: {location}")
-            return location['lat'], location['lng']
-        else:
-            print(f"Error: No results found for city: {city_name}")
-            return None, None
-    else:
-        print(f"Error fetching coordinates: {response.json().get('error_message', 'Unknown error')}")
-        return None, None
+# Mapping for price and cuisine
+price_mapping = {
+    '¥': '1',
+    '¥¥': '2',
+    '¥¥¥': '3',
+    '¥¥¥¥': '3'
+}
 
-# Add below unchanged line:
+cuisine_mapping = {
+    'Indian': 'ind',
+    'Western': 'wes',
+    'Japanese': 'jap',
+    'Chinese': 'chi'
+}
+
 def map_price_to_symbol(price):
     if price < 3000:
         return '¥'
@@ -68,7 +56,7 @@ def map_price_to_symbol(price):
         return '¥¥¥'
     else:
         return '¥¥¥¥'
-    
+
 @app.route('/')
 def home():
     session['group_name'] = request.form.get('group_name')
@@ -146,111 +134,61 @@ def choose_location():
         selected_restaurant = request.form.get('restaurant')
         session['selected_restaurant'] = selected_restaurant
         return redirect(url_for('vote_winner'))
-    
+
     location = session.get('location')
     price = session.get('price')
     cuisine = session.get('feeling')
 
-    mapped_price = price_mapping.get(price, '1')  # Default to '1' if not found
-    mapped_cuisine = cuisine_mapping.get(cuisine, 'chi')  # Default to 'chi' if not found
+    print(f"Price: {price}, Cuisine: {cuisine}")  # Debugging print statement
+    print(f"Sample of restaurant_details: {list(restaurant_details.items())[:5]}")  # Debugging print statement
 
-    # Example ratings, replace with actual logic to fetch ratings
-    restaurant_ratings = {
-        'A': 4.5,
-        'B': 4.2,
-        'C': 4.0
-    }
+    # Filter the restaurants based on the selected price and cuisine
+    filtered_restaurants = [
+        {**details, 'name': name} for name, details in restaurant_details.items() 
+        if details['price'] == price and details['cuisine'].lower() == cuisine.lower()[0:3]
+    ]
 
-    restaurant_distances = {
-        'A': '500m',
-        'B': '1km',
-        'C': '300m'
-    }
+    print(f"Filtered restaurants: {filtered_restaurants}")  # Debugging print statement
 
-    # Reverse mapping for price symbols
-    price_mapping_reverse = {
-        '1': '¥',
-        '2': '¥¥',
-        '3': '¥¥¥'
-    }
+    # Sort the filtered restaurants by rating in descending order
+    filtered_restaurants.sort(key=lambda x: x['rating'], reverse=True)
 
-    restaurant_seat_availability = {
-        'A': 'Limited seating',
-        'B': 'Limited seating',
-        'C': 'Many seats available'
-    }
-    
-    images = []
-    if mapped_price and mapped_cuisine:
-        image_dir = os.path.join('static', mapped_cuisine).replace("\\","/")
-        for i in ['A', 'B', 'C']:
-            for ext in ['jpg', 'jpeg', 'webp']:
-                image_path = f'res-{mapped_price}-{mapped_cuisine}-{i}.{ext}'
-                print(image_dir,image_path)
-                if os.path.exists(os.path.join(image_dir, image_path)):
-                    images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i, restaurant_distances[i], price))
-                    break
-                elif os.path.exists(os.path.join("/home/ganga008/Spontaneous_prototype/"+image_dir, image_path)):
-                    images.append((f'{mapped_cuisine}/{image_path}', restaurant_ratings[i], i, restaurant_distances[i], price))
-        print(images)
-    
-    # Sort images by rating
-    images.sort(key=lambda x: x[1], reverse=True)
-
-    return render_template('choose_location.html', location=location, price=price, cuisine=cuisine, images=images, restaurant_seat_availability=restaurant_seat_availability, restaurant_distances=restaurant_distances)
+    return render_template('choose_location.html', location=location, price=price, cuisine=cuisine, images=filtered_restaurants)
 
 @app.route('/vote_winner', methods=['GET', 'POST'])
 def vote_winner():
     if request.method == 'POST':
-        winner = request.form.get('winner')
-        session['winner'] = winner
+        first_preference = request.form.get('first_preference')
+        second_preference = request.form.get('second_preference')
+        session['first_preference'] = first_preference
+        session['second_preference'] = second_preference
         return redirect(url_for('confirmation'))
 
     selected_restaurant = session.get('selected_restaurant')
-    print(session)
-    restaurant_details = {
-        'Restaurant A': {
-            'distance': '500m',
-            'rating': '4.5',
-            'discount': 'Enjoy 5% off all beverages for dine-in customers only!'
-        },
-        'Restaurant B': {
-            'distance': '300m',
-            'rating': '4.2',
-            'discount': 'Enjoy 10% off on all orders above ¥5000!'
-        },
-        'Restaurant C': {
-            'distance': '500m',
-            'rating': '4.8',
-            'discount': 'Get a free dessert with every meal!'
-        },
-        'Restaurant D': {
-            'distance': '400m',
-            'rating': '4.6',
-            'discount': 'Get a free appetizer with any meal!'
-        },
-        'Restaurant E': {
-            'distance': '350m',
-            'rating': '4.7',
-            'discount': 'Enjoy 15% off on weekends!'
-        }
-    }
-
     selected_restaurant_details = restaurant_details.get(selected_restaurant, {})
-    other_restaurants = [
-        restaurant_details['Restaurant D'],
-        restaurant_details['Restaurant E']
-    ]
 
-    return render_template('vote_winner.html', selected_restaurant=selected_restaurant, selected_restaurant_details=selected_restaurant_details, other_restaurants=other_restaurants)
+    # Randomly select other restaurants excluding the selected one
+    other_restaurants = [details for name, details in restaurant_details.items() if name != selected_restaurant]
+    random.shuffle(other_restaurants)
+    other_restaurants = other_restaurants[:3]
+
+    return render_template('vote_winner.html', selected_restaurant=selected_restaurant_details, other_restaurants=other_restaurants)
 
 @app.route('/confirmation', methods=['GET', 'POST'])
 def confirmation():
-    selected_restaurant = session.get('winner', 'Unknown')
+    selected_restaurant = session.get('first_preference', 'Unknown')
     location = session.get('location')
     if request.method == 'POST':
         return redirect(url_for('home'))
-    return render_template('confirmation.html', selected_restaurant=selected_restaurant, location=location)
+
+    # Example votes data, replace with actual voting data
+    votes_data = {
+        'Restaurant 1': {'first_preference': 12, 'second_preference': 5},
+        'Restaurant 2': {'first_preference': 19, 'second_preference': 3},
+        'Restaurant 3': {'first_preference': 3, 'second_preference': 2}
+    }
+
+    return render_template('confirmation.html', selected_restaurant=selected_restaurant, location=location, votes_data=votes_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

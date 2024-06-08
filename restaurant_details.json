@@ -1,0 +1,326 @@
+{
+  "RESTAURENT-Chi-A-1": {
+    "distance": "950m",
+    "rating": 3.7,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-1-chi-A.jpg"
+  },
+  "RESTAURENT-Chi-B-1": {
+    "distance": "589m",
+    "rating": 4.0,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Many seats available",
+    "price": "\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-1-chi-B.jpg"
+  },
+  "RESTAURENT-Chi-C-1": {
+    "distance": "407m",
+    "rating": 4.7,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-1-chi-C.jpg"
+  },
+  "RESTAURENT-Chi-A-2": {
+    "distance": "618m",
+    "rating": 4.0,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-2-chi-A.jpg"
+  },
+  "RESTAURENT-Chi-B-2": {
+    "distance": "355m",
+    "rating": 3.7,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-2-chi-B.jpeg"
+  },
+  "RESTAURENT-Chi-C-2": {
+    "distance": "928m",
+    "rating": 3.5,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-2-chi-C.jpg"
+  },
+  "RESTAURENT-Chi-A-3": {
+    "distance": "605m",
+    "rating": 4.4,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-3-chi-A.jpg"
+  },
+  "RESTAURENT-Chi-B-3": {
+    "distance": "439m",
+    "rating": 4.5,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Many seats available",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-3-chi-B.jpg"
+  },
+  "RESTAURENT-Chi-C-3": {
+    "distance": "479m",
+    "rating": 4.1,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Chi",
+    "image": "chi/res-3-chi-C.jpg"
+  },
+  "RESTAURENT-Ind-A-1": {
+    "distance": "869m",
+    "rating": 3.5,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-1-ind-A.png"
+  },
+  "RESTAURENT-Ind-B-1": {
+    "distance": "818m",
+    "rating": 3.8,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-1-ind-B.jpg"
+  },
+  "RESTAURENT-Ind-C-1": {
+    "distance": "932m",
+    "rating": 3.8,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Many seats available",
+    "price": "\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-1-ind-C.jpg"
+  },
+  "RESTAURENT-Ind-A-2": {
+    "distance": "477m",
+    "rating": 4.4,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Many seats available",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-2-ind-A.webp"
+  },
+  "RESTAURENT-Ind-B-2": {
+    "distance": "379m",
+    "rating": 4.9,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-2-ind-B.jpg"
+  },
+  "RESTAURENT-Ind-C-2": {
+    "distance": "929m",
+    "rating": 3.7,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-2-ind-C.jpg"
+  },
+  "RESTAURENT-Ind-A-3": {
+    "distance": "941m",
+    "rating": 4.9,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-3-ind-A.jpg"
+  },
+  "RESTAURENT-Ind-B-3": {
+    "distance": "326m",
+    "rating": 4.9,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Many seats available",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-3-ind-B.jpg"
+  },
+  "RESTAURENT-Ind-C-3": {
+    "distance": "605m",
+    "rating": 4.4,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Ind",
+    "image": "ind/res-3-ind-C.jpg"
+  },
+  "RESTAURENT-Jap-A-1": {
+    "distance": "668m",
+    "rating": 4.8,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Many seats available",
+    "price": "\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-1-jap-A.jpg"
+  },
+  "RESTAURENT-Jap-B-1": {
+    "distance": "342m",
+    "rating": 3.7,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-1-jap-B.webp"
+  },
+  "RESTAURENT-Jap-C-1": {
+    "distance": "766m",
+    "rating": 3.5,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-1-jap-C.jpg"
+  },
+  "RESTAURENT-Jap-A-2": {
+    "distance": "823m",
+    "rating": 3.8,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-2-jap-A.webp"
+  },
+  "RESTAURENT-Jap-B-2": {
+    "distance": "605m",
+    "rating": 4.3,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-2-jap-B.webp"
+  },
+  "RESTAURENT-Jap-C-2": {
+    "distance": "900m",
+    "rating": 4.1,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-2-jap-C.webp"
+  },
+  "RESTAURENT-Jap-A-3": {
+    "distance": "442m",
+    "rating": 3.8,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-3-jap-A.jpg"
+  },
+  "RESTAURENT-Jap-B-3": {
+    "distance": "763m",
+    "rating": 4.6,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-3-jap-B.jpeg"
+  },
+  "RESTAURENT-Jap-C-3": {
+    "distance": "558m",
+    "rating": 4.6,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Jap",
+    "image": "jap/res-3-jap-C.jpg"
+  },
+  "RESTAURENT-Wes-A-1": {
+    "distance": "512m",
+    "rating": 3.5,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-1-wes-A.jpg"
+  },
+  "RESTAURENT-Wes-B-1": {
+    "distance": "450m",
+    "rating": 4.1,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-1-wes-B.jpg"
+  },
+  "RESTAURENT-Wes-C-1": {
+    "distance": "473m",
+    "rating": 4.1,
+    "discount": "Enjoy 5% off all beverages for dine-in customers only!",
+    "seats": "Limited seating",
+    "price": "\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-1-wes-C.webp"
+  },
+  "RESTAURENT-Wes-A-2": {
+    "distance": "818m",
+    "rating": 4.1,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-2-wes-A.jpg"
+  },
+  "RESTAURENT-Wes-B-2": {
+    "distance": "488m",
+    "rating": 3.6,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Many seats available",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-2-wes-B.jpg"
+  },
+  "RESTAURENT-Wes-C-2": {
+    "distance": "879m",
+    "rating": 4.9,
+    "discount": "Enjoy 10% off on all orders above \u00a55000!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-2-wes-C.jpg"
+  },
+  "RESTAURENT-Wes-A-3": {
+    "distance": "399m",
+    "rating": 4.0,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Many seats available",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-3-wes-A.jpg"
+  },
+  "RESTAURENT-Wes-B-3": {
+    "distance": "821m",
+    "rating": 4.2,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-3-wes-B.jpg"
+  },
+  "RESTAURENT-Wes-C-3": {
+    "distance": "550m",
+    "rating": 4.8,
+    "discount": "Get a free dessert with every meal!",
+    "seats": "Limited seating",
+    "price": "\u00a5\u00a5\u00a5",
+    "cuisine": "Wes",
+    "image": "wes/res-3-wes-C.jpeg"
+  }
+}

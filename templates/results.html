@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h3>Voting Results</h3>
+    <h4 class="mt-3">Your First Preference: {{ first_preference }}</h4>
+    <h4>Your Second Preference: {{ second_preference }}</h4>
+
+    <h5 class="mt-4">Votes:</h5>
+    <div class="mt-3">
+        <div class="row">
+            {% for restaurant, votes in vote_numbers.items() %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ restaurant }}</h5>
+                        <p>Votes: {{ votes }}</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ votes * 10 }}%;" aria-valuenow="{{ votes }}" aria-valuemin="0" aria-valuemax="10"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Back to Home</a>
+</div>
+{% endblock %}

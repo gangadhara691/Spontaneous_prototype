@@ -10,21 +10,21 @@
         <select class="form-select" id="filter" onchange="applyFilter()">
             <option value="nearest">Nearest to you</option>
             <option value="seats">Seat availability</option>
-            <option value="price">Price</option>
+            <option value="rating">Rating</option>
         </select>
     </div>
     <form action="{{ url_for('choose_location') }}" method="post">
         <div class="form-group mt-3">
             <label for="restaurant">Now, choose your favourite!</label>
             <div class="row" id="restaurant-list">
-                {% for image, rating, restaurant, distance, price in images %}
+                {% for restaurant in images %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="{{ url_for('static', filename=image) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
+                        <img src="{{ url_for('static', filename=restaurant['image']) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
-                            <span class="badge {{ 'bg-warning' if restaurant_seat_availability[restaurant] == 'Limited seating' else 'bg-success' }}">{{ restaurant_seat_availability[restaurant] }}</span>
-                            <h5 class="card-title">Restaurant {{ restaurant }}</h5>
-                            <p>{{ distance }}, {{ rating }} stars, {{ price }}</p>
+                            <span class="badge {{ 'bg-warning' if restaurant['seats'] == 'Limited seating' else 'bg-success' }}">{{ restaurant['seats'] }}</span>
+                            <h5 class="card-title">{{ restaurant['name'] }}</h5>
+                            <p>{{ restaurant['distance'] }}, {{ restaurant['rating'] }} stars</p>
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal{{ loop.index }}">View Details</button>
                         </div>
                     </div>
@@ -37,22 +37,22 @@
     <a href="{{ url_for('feeling') }}" class="btn btn-secondary mt-3">Back</a>
 </div>
 
-{% for image, rating, restaurant, distance, price in images %}
+{% for restaurant in images %}
 <!-- Modal {{ loop.index }} -->
 <div class="modal fade" id="restaurantModal{{ loop.index }}" tabindex="-1" aria-labelledby="restaurantModalLabel{{ loop.index }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="restaurantModalLabel{{ loop.index }}">
-                    <span class="badge {{ 'bg-warning' if restaurant_seat_availability[restaurant] == 'Limited seating' else 'bg-success' }}">{{ restaurant_seat_availability[restaurant] }}</span>
-                    Restaurant {{ restaurant }}
-                    <span class="badge bg-primary">{{ price }}</span>
+                    <span class="badge {{ 'bg-warning' if restaurant['seats'] == 'Limited seating' else 'bg-success' }}">{{ restaurant['seats'] }}</span>
+                    {{ restaurant['name'] }}
+                    <span class="badge bg-primary">{{ restaurant['price'] }}</span>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{ url_for('static', filename=image) }}" alt="Restaurant {{ restaurant }}" class="img-fluid">
-                <p>Some details about Restaurant {{ restaurant }}...</p>
+                <img src="{{ url_for('static', filename=restaurant['image']) }}" alt="{{ restaurant['name'] }}" class="img-fluid">
+                <p>Some details about {{ restaurant['name'] }}...</p>
                 <h6>See what people think...</h6>
                 <div class="review">
                     <p><strong>John Doe:</strong> Great experience! The food was amazing and the service was excellent...</p>
@@ -63,7 +63,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ (loop.index0 - 1) % 3 + 1 }}')">&#x2190; Previous</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ (loop.index0 + 1) % 3 + 1 }}')">Next &#x2192;</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('Restaurant {{ restaurant }}')">Looks delicious!</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm('{{ restaurant.name }}')">Looks delicious!</button>
             </div>
         </div>
     </div>
@@ -94,8 +94,8 @@ function applyFilter() {
     let sortedRestaurants = [];
     if (filter === 'nearest') {
         sortedRestaurants = [...document.querySelectorAll('#restaurant-list .col-md-4')].sort((a, b) => {
-            const distanceA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[2]);
-            const distanceB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[2]);
+            const distanceA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[1]);
+            const distanceB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[1]);
             return distanceA - distanceB;
         });
     } else if (filter === 'seats') {
@@ -104,11 +104,11 @@ function applyFilter() {
             const seatsB = b.querySelector('.badge').classList.contains('bg-warning') ? 0 : 1;
             return seatsB - seatsA;
         });
-    } else if (filter === 'price') {
+    } else if (filter === 'rating') {
         sortedRestaurants = [...document.querySelectorAll('#restaurant-list .col-md-4')].sort((a, b) => {
-            const priceA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[3]);
-            const priceB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[3]);
-            return priceA - priceB;
+            const ratingA = parseFloat(a.querySelector('.card-title').textContent.split(' ')[3]);
+            const ratingB = parseFloat(b.querySelector('.card-title').textContent.split(' ')[3]);
+            return ratingB - ratingA;
         });
     }
 

@@ -17,4 +17,41 @@
     <button type="button" class="btn btn-primary mt-3">Make a Reservation</button>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
 </div>
+<div class="mt-5">
+    <h3>Voting Results</h3>
+    <canvas id="votesChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('votesChart').getContext('2d');
+    const votesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Restaurant 1', 'Restaurant 2', 'Restaurant 3'],
+            datasets: [{
+                label: '# of Votes for 1st Preference',
+                data: [12, 19, 3], // Sample data for 1st preference votes
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: '# of Votes for 2nd Preference',
+                data: [5, 3, 2], // Sample data for 2nd preference votes
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
