@@ -163,8 +163,8 @@ def choose_location():
     print(f"Sample of restaurant_details: {list(restaurant_details.items())[:5]}")  # Debugging print statement
     for name, details in restaurant_details.items():
         details["name"] = name
-        if not os.path.exists("static/"+details["image"]):
-            details["image"] = "/home/ganga008/Spontaneous_prototype/static/"+details["image"]
+        # if not os.path.exists("static/"+details["image"]):
+        #     details["image"] = "/home/ganga008/Spontaneous_prototype/static/"+details["image"]
     # Filter the restaurants based on the selected price and cuisine
     filtered_restaurants = [
         {**details, 'name': name} for name, details in restaurant_details.items() 
