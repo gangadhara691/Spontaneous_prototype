@@ -48,7 +48,7 @@
     "distance": "928m",
     "rating": 3.5,
     "discount": "Enjoy 10% off on all orders above \u00a55000!",
-    "seats": "Limited seating",
+    "seats": "Many seats available",
     "price": "\u00a5\u00a5",
     "cuisine": "Chi",
     "image": "chi/res-2-chi-C.jpg"
@@ -210,7 +210,7 @@
     "distance": "900m",
     "rating": 4.1,
     "discount": "Enjoy 10% off on all orders above \u00a55000!",
-    "seats": "Limited seating",
+    "seats": "Many seats available",
     "price": "\u00a5\u00a5",
     "cuisine": "Jap",
     "image": "jap/res-2-jap-C.webp"
@@ -228,7 +228,7 @@
     "distance": "763m",
     "rating": 4.6,
     "discount": "Get a free dessert with every meal!",
-    "seats": "Limited seating",
+    "seats": "Many seats available",
     "price": "\u00a5\u00a5\u00a5",
     "cuisine": "Jap",
     "image": "jap/res-3-jap-B.jpeg"
@@ -255,7 +255,7 @@
     "distance": "450m",
     "rating": 4.1,
     "discount": "Enjoy 5% off all beverages for dine-in customers only!",
-    "seats": "Limited seating",
+    "seats": "Many seats available",
     "price": "\u00a5",
     "cuisine": "Wes",
     "image": "wes/res-1-wes-B.jpg"

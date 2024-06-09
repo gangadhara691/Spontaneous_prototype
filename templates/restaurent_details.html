@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="details-card">
+        <h3>{{ restaurant['name'] }} ({{ restaurant['distance'] }})</h3>
+        <img src="{{ url_for('static', filename=restaurant['image']) }}" alt="{{ restaurant['name'] }}" class="restaurant-image">
+        <p><strong>Rating:</strong> {{ restaurant['rating'] }} stars</p>
+        <p><strong>Cuisine:</strong> {{ restaurant['cuisine'] }}</p>
+        <p><strong>Seats:</strong> {{ restaurant['seats'] }}</p>
+        <a href="{{ url_for('static', filename='menu.pdf') }}" class="action-button">Menu.pdf</a>
+        <a href="https://www.google.com/maps" class="action-button">Map</a>
+        <a href="https://www.reservation-website.com" class="action-button">Make a reservation</a>
+    </div>
+</div>
+{% endblock %}

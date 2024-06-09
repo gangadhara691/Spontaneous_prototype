@@ -12,49 +12,49 @@
         </select>
     </div>
     <form action="{{ url_for('vote_winner') }}" method="post">
+        <input type="hidden" name="preference1" value="">
+        <input type="hidden" name="preference2" value="">
         <div class="form-group mt-3">
             <div class="row" id="restaurant-list">
                 <div class="col-md-12">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <img src="{{ url_for('static', filename=selected_restaurant['image']) }}" class="card-img-top" alt="Restaurant Image" style="width: 50px; height: 50px; object-fit: cover;">
+                            <img src="{{ url_for('static', filename=selected_restaurant['image']) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
                             <span class="badge {{ 'bg-warning' if selected_restaurant['seats'] == 'Limited seating' else 'bg-success' }}">{{ selected_restaurant['seats'] }}</span>
                             <h5 class="card-title">{{ selected_restaurant.name }} ({{ selected_restaurant['distance'] }}, {{ selected_restaurant['rating'] }} stars)</h5>
                             <span class="badge bg-primary">{{ selected_restaurant['price'] }}</span>
                             <span>{{ selected_restaurant['cuisine'] }}</span>
-                            <button type="button" class="btn btn-outline-primary view-details-btn" data-bs-toggle="modal" data-bs-target="#restaurantModalSelected">View Details</button>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" onclick="selectPreference('{{ selected_restaurant.name }}', 1)">1</button>
-                                <button type="button" class="btn btn-secondary" onclick="selectPreference('{{ selected_restaurant.name }}', 2)">2</button>
+                            <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ selected_restaurant['discount'] }}">Discount Details</span>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModalSelected">View Details</button>
+                            <div class="preference-buttons d-flex justify-content-around mt-3">
+                                <button type="button" class="btn preference-btn1" id="pref1-{{ selected_restaurant.name }}" onclick="selectPreference1('{{ selected_restaurant.name }}', this)">1</button>
+                                <button type="button" class="btn preference-btn2" id="pref2-{{ selected_restaurant.name }}" onclick="selectPreference2('{{ selected_restaurant.name }}', this)">2</button>
                             </div>
                         </div>
                     </div>
-                    <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ selected_restaurant['discount'] }}">Discount Details</span>
                 </div>
 
                 {% for restaurant in other_restaurants %}
                 <div class="col-md-12">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <img src="{{ url_for('static', filename=restaurant['image']) }}" class="card-img-top" alt="Restaurant Image" style="width: 50px; height: 50px; object-fit: cover;">
+                            <img src="{{ url_for('static', filename=restaurant['image']) }}" class="card-img-top" alt="Restaurant Image" style="height: 200px; object-fit: cover;">
                             <span class="badge {{ 'bg-warning' if restaurant['seats'] == 'Limited seating' else 'bg-success' }}">{{ restaurant['seats'] }}</span>
                             <h5 class="card-title">{{ restaurant.name }} ({{ restaurant['distance'] }}, {{ restaurant['rating'] }} stars)</h5>
                             <span class="badge bg-primary">{{ restaurant['price'] }}</span>
                             <span>{{ restaurant['cuisine'] }}</span>
-                            <button type="button" class="btn btn-outline-primary view-details-btn" data-bs-toggle="modal" data-bs-target="#restaurantModal{{ loop.index }}">View Details</button>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" onclick="selectPreference('{{ restaurant.name }}', 1)">1</button>
-                                <button type="button" class="btn btn-secondary" onclick="selectPreference('{{ restaurant.name }}', 2)">2</button>
+                            <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ restaurant['discount'] }}">Discount Details</span>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#restaurantModal{{ loop.index }}">View Details</button>
+                            <div class="preference-buttons d-flex justify-content-around mt-3">
+                                <button type="button" class="btn preference-btn1" id="pref1-{{ restaurant.name }}" onclick="selectPreference1('{{ restaurant.name }}', this)">1</button>
+                                <button type="button" class="btn preference-btn2" id="pref2-{{ restaurant.name }}" onclick="selectPreference2('{{ restaurant.name }}', this)">2</button>
                             </div>
                         </div>
                     </div>
-                    <span class="discount-details" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ restaurant['discount'] }}">Discount Details</span>
                 </div>
                 {% endfor %}
             </div>
         </div>
-        <input type="hidden" name="first_preference" id="first_preference_input">
-        <input type="hidden" name="second_preference" id="second_preference_input">
         <button type="submit" class="btn btn-primary mt-3">Vote</button>
     </form>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back()">&#x2190; Back</button>
@@ -67,7 +67,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="restaurantModalLabelSelected">
                     <span class="badge {{ 'bg-warning' if selected_restaurant['seats'] == 'Limited seating' else 'bg-success' }}">{{ selected_restaurant['seats'] }}</span>
-                    {{ selected_restaurant.name }}
+                    {{ session.selected_restaurant }}
                     <span class="badge bg-primary">{{ selected_restaurant['price'] }}</span>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -80,6 +80,10 @@
                     {% for review in selected_restaurant['reviews'] %}
                     <p><strong>{{ review['name'] }}:</strong> {{ review['comment'] }}</p>
                     {% endfor %}
+                </div>
+                <div class="modal-navigation">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal0')">&#x2190; Previous</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal1')">Next &#x2192;</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -111,6 +115,10 @@
                     <p><strong>{{ review['name'] }}:</strong> {{ review['comment'] }}</p>
                     {% endfor %}
                 </div>
+                <div class="modal-navigation">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ loop.index - 1 }}')">&#x2190; Previous</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="openModal('#restaurantModal{{ loop.index + 1 }}')">Next &#x2192;</button>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">&#x2190; Close</button>
@@ -121,30 +129,31 @@
 {% endfor %}
 
 <script>
-let selectedFirst = null;
-let selectedSecond = null;
+let selectedPreference1 = null;
+let selectedPreference2 = null;
 
-function selectPreference(restaurantName, preference) {
-    if (preference === 1) {
-        selectedFirst = restaurantName;
-        document.getElementById('first_preference_input').value = restaurantName;
-    } else {
-        selectedSecond = restaurantName;
-        document.getElementById('second_preference_input').value = restaurantName;
+function selectPreference1(restaurantName, button) {
+    if (selectedPreference1) {
+        selectedPreference1.classList.remove('selected');
     }
-
-    // Clear previous selections
-    document.querySelectorAll('.btn-primary').forEach(button => button.classList.remove('active'));
-    document.querySelectorAll('.btn-secondary').forEach(button => button.classList.remove('active'));
-
-    // Highlight current selection
-    if (selectedFirst) {
-        document.querySelectorAll(`button[onclick="selectPreference('${selectedFirst}', 1)"]`).forEach(button => button.classList.add('active'));
-    }
-    if (selectedSecond) {
-        document.querySelectorAll(`button[onclick="selectPreference('${selectedSecond}', 2)"]`).forEach(button => button.classList.add('active'));
-    }
+    button.classList.add('selected');
+    selectedPreference1 = button;
+    document.querySelector('input[name="preference1"]').value = restaurantName;
 }
+
+function selectPreference2(restaurantName, button) {
+    if (selectedPreference2) {
+        selectedPreference2.classList.remove('selected');
+    }
+    button.classList.add('selected');
+    selectedPreference2 = button;
+    document.querySelector('input[name="preference2"]').value = restaurantName;
+}
+
+$(document).ready(function(){
+  $('[data-bs-toggle="tooltip"]').tooltip();
+  applyFilter();  // Ensure filter is applied on page load
+});
 
 function applyFilter() {
     const filter = document.getElementById('filter').value;
@@ -174,11 +183,9 @@ function applyFilter() {
     sortedRestaurants.forEach(restaurant => restaurantList.appendChild(restaurant));
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-});
+function openModal(modalId) {
+    var modal = new bootstrap.Modal(document.querySelector(modalId));
+    modal.show();
+}
 </script>
 {% endblock %}

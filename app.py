@@ -6,10 +6,30 @@ import random
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
-# Load restaurant details from JSON
-with open('restaurant_details.json', 'r') as f:
-    restaurant_details = json.load(f)
+iframes = {
+    "Jap": '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25909.81818687059!2d139.6906253743164!3d35.7329253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d76e2611ec9%3A0xd19caad64db229b!2sEthnic%20Dining%20Japan!5e0!3m2!1sen!2sjp!4v1717904340665!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    "Chi": '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25919.10833882084!2d139.7346936743164!3d35.7043603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c1e29c7090f%3A0x12b845ef4f1b4000!2sChinese%20restaurant!5e0!3m2!1sen!2sjp!4v1717904378592!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    "Ind": '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51833.337741465264!2d139.64331384863277!3d35.711863!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188dba5a343af7%3A0x85ae75672843498a!2sMughal%20Halal%20Indian%20restaurant!5e0!3m2!1sen!2sjp!4v1717904451294!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    "Wes": '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51833.346873008595!2d139.643313797727!3d35.711848959028885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188cc09fa1f559%3A0x94b6232057cc6728!2sWestern-style%20Restaurant%20Le%20Rire!5e0!3m2!1sen!2sjp!4v1717904496328!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+}
 
+# Load restaurant details from JSON
+# with open('restaurant_details.json', 'r') as f:
+#     restaurant_details = json.load(f)
+def load_res(json_file):
+    # First, check if the file exists in the current directory
+    if os.path.exists(json_file):
+        file_path = json_file
+    # If not, check the specified path
+    elif os.path.exists(os.path.join('/home/ganga008/Spontaneous_prototype', json_file)):
+        file_path = os.path.join('/home/ganga008/Spontaneous_prototype', json_file)
+    else:
+        raise FileNotFoundError(f"API keys file {json_file} not found in the current directory or /home/ganga008/Spontaneous_prototype/")
+    
+    with open(file_path, 'r') as file:
+        config = json.load(file)
+    print(f"Loaded API keys from {file_path}")
+    return config
 # Function to load API keys from a JSON file
 def load_api_keys(json_file):
     # First, check if the file exists in the current directory
@@ -28,7 +48,7 @@ def load_api_keys(json_file):
 
 # Load the API keys
 API_KEY, OPENAI_API_KEY = load_api_keys('api.json')
-
+restaurant_details = load_res('restaurant_details.json')
 # In-memory storage for user interests and locations
 rooms = {}
 
@@ -71,7 +91,7 @@ def create_group():
         print(f"Creating group: {group_name} with username: {your_name} and location: {location}")
         if group_name and your_name and location:
             session['group'] = group_name
-            session['username'] = your_name
+            session['your_name'] = your_name
             session['location'] = location
             if group_name not in rooms:
                 rooms[group_name] = {"location": location, "users": {}}
@@ -91,7 +111,7 @@ def join_group():
             if your_name not in rooms[group_name]["users"]:
                 rooms[group_name]["users"][your_name] = []
                 session['group'] = group_name
-                session['username'] = your_name
+                session['your_name'] = your_name
                 session['location'] = location
                 return redirect(url_for('feeling'))
             else:
@@ -138,10 +158,13 @@ def choose_location():
     location = session.get('location')
     price = session.get('price')
     cuisine = session.get('feeling')
-
+    print(restaurant_details)
     print(f"Price: {price}, Cuisine: {cuisine}")  # Debugging print statement
     print(f"Sample of restaurant_details: {list(restaurant_details.items())[:5]}")  # Debugging print statement
-
+    for name, details in restaurant_details.items():
+        details["name"] = name
+        if not os.path.exists("static/"+details["image"]):
+            details["image"] = "/home/ganga008/Spontaneous_prototype/static/"+details["image"]
     # Filter the restaurants based on the selected price and cuisine
     filtered_restaurants = [
         {**details, 'name': name} for name, details in restaurant_details.items() 
@@ -158,37 +181,79 @@ def choose_location():
 @app.route('/vote_winner', methods=['GET', 'POST'])
 def vote_winner():
     if request.method == 'POST':
-        first_preference = request.form.get('first_preference')
-        second_preference = request.form.get('second_preference')
+        first_preference = request.form.get('preference1')
+        second_preference = request.form.get('preference2')
         session['first_preference'] = first_preference
         session['second_preference'] = second_preference
+        print(f"First preference: {first_preference}, Second preference: {second_preference}")
         return redirect(url_for('confirmation'))
 
     selected_restaurant = session.get('selected_restaurant')
     selected_restaurant_details = restaurant_details.get(selected_restaurant, {})
-
+    print(f"Selected restaurant: {selected_restaurant}, Details: {selected_restaurant_details}")
     # Randomly select other restaurants excluding the selected one
+    
+        # print(name, details)
     other_restaurants = [details for name, details in restaurant_details.items() if name != selected_restaurant]
+    # other_restaurants = {name: details for name, details in restaurant_details.items() if name != selected_restaurant}
+
+    print(f"Other restaurants: {other_restaurants}")
     random.shuffle(other_restaurants)
     other_restaurants = other_restaurants[:3]
 
     return render_template('vote_winner.html', selected_restaurant=selected_restaurant_details, other_restaurants=other_restaurants)
 
+import random
+
+# Sample reviews and ratings
+sample_reviews = [
+    ("John Doe", "Great place! Loved the food.", 5),
+    ("Jane Smith", "Nice ambiance but a bit pricey.", 4),
+    ("Alice Johnson", "The service was excellent!", 5),
+    ("Bob Brown", "Food was okay, not the best I've had.", 3),
+    ("Charlie Davis", "Would definitely visit again.", 4)
+]
+
+def generate_random_reviews():
+    return random.sample(sample_reviews, k=3)  # Generate 3 random reviews for each restaurant
+
 @app.route('/confirmation', methods=['GET', 'POST'])
 def confirmation():
-    selected_restaurant = session.get('first_preference', 'Unknown')
-    location = session.get('location')
     if request.method == 'POST':
         return redirect(url_for('home'))
 
-    # Example votes data, replace with actual voting data
-    votes_data = {
-        'Restaurant 1': {'first_preference': 12, 'second_preference': 5},
-        'Restaurant 2': {'first_preference': 19, 'second_preference': 3},
-        'Restaurant 3': {'first_preference': 3, 'second_preference': 2}
+    # Retrieve preferences from session
+    first_preference = session.get('first_preference', 'Unknown')
+    second_preference = session.get('second_preference', 'Unknown')
+    selected_restaurant = session.get('selected_restaurant')
+    selected_restaurant_details = restaurant_details.get(selected_restaurant, {})
+
+    # Example: Mock vote counts using the selected and other restaurants
+    vote_counts = {
+        first_preference: {'first_preference': 10, 'second_preference': 5},
+        second_preference: {'first_preference': 7, 'second_preference': 3},
     }
 
-    return render_template('confirmation.html', selected_restaurant=selected_restaurant, location=location, votes_data=votes_data)
+    # Randomly select one restaurant from other_restaurants for the third rank
+    other_restaurants = [details for name, details in restaurant_details.items() if name not in [first_preference, second_preference]]
+    random_third_restaurant = random.choice(other_restaurants)
+    random_third_restaurant_name = random_third_restaurant['name']
+    vote_counts[random_third_restaurant_name] = {'first_preference': 5, 'second_preference': 2}
+
+    # Calculate total votes for percentage calculation
+    total_votes = sum(v['first_preference'] + v['second_preference'] for v in vote_counts.values())
+
+    # Sort the restaurants based on vote counts
+    sorted_restaurants = sorted(vote_counts.items(), key=lambda item: (item[1]['first_preference'], item[1]['second_preference']), reverse=True)
+
+    # Assign ranks to the top 3 restaurants
+    top_3_restaurants = {
+        "Rank 1 ": (sorted_restaurants[0][0], sorted_restaurants[0][1]),
+        "Rank 2 ": (sorted_restaurants[1][0], sorted_restaurants[1][1]),
+        "Rank 3 ": (sorted_restaurants[2][0], sorted_restaurants[2][1]),
+    }
+
+    return render_template('confirmation.html', top_3_restaurants=top_3_restaurants, restaurant_details=restaurant_details, total_votes=total_votes,iframes=iframes)
 
 if __name__ == '__main__':
     app.run(debug=True)
