@@ -232,7 +232,7 @@ def confirmation():
 
     # Example: Mock vote counts using the selected and other restaurants
     vote_counts = {
-        first_preference: {'first_preference': 10, 'second_preference': 5},
+        first_preference: {'first_preference': 20, 'second_preference': 10},
         second_preference: {'first_preference': 7, 'second_preference': 3},
     }
 
