@@ -19,13 +19,13 @@
                 <div class="card-body">
                     <div class="bar-graph-container">
                         <div class="bar-graph">
-                            <span style="color: black; font-weight: bold; position: absolute; width: 100%; text-align: center;">1st ({{ (votes['first_preference'] / total_votes * 100)|round(1) }}%)</span>
-                            <div class="bar bar-primary" style="width: {{ (votes['first_preference'] / total_votes * 100) }}%; color: black;">
+                            <div class="bar bar-primary" style="width: {{ (votes['first_preference'] / total_votes_1 * 100) }}%; color: black;">
+                            <span style="color: black; font-weight: bold; position: absolute; width: 100%; text-align: center;">1st ({{ (votes['first_preference'] / total_votes_1 * 100)|round(1) }}%)</span>
                             </div>
                         </div>
                         <div class="bar-graph">
-                            <span style="color: black; font-weight: bold; position: absolute; width: 100%; text-align: center;">2nd ({{ (votes['second_preference'] / total_votes * 100)|round(1) }}%)</span>
-                            <div class="bar bar-secondary" style="width: {{ (votes['second_preference'] / total_votes * 100) }}%; color: black;">
+                            <div class="bar bar-secondary" style="width: {{ (votes['second_preference'] / total_votes_2 * 100) }}%; color: black;">
+                            <span style="color: black; font-weight: bold; position: absolute; width: 100%; text-align: center;">2nd ({{ (votes['second_preference'] / total_votes_2 * 100)|round(1) }}%)</span>
                             </div>
                         </div>
                     </div>

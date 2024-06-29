@@ -232,8 +232,8 @@ def confirmation():
 
     # Example: Mock vote counts using the selected and other restaurants
     vote_counts = {
-        first_preference: {'first_preference': 20, 'second_preference': 10},
-        second_preference: {'first_preference': 7, 'second_preference': 3},
+        first_preference: {'first_preference': 30, 'second_preference': 10},
+        second_preference: {'first_preference': 7, 'second_preference': 4},
     }
 
     # Randomly select one restaurant from other_restaurants for the third rank
@@ -243,7 +243,8 @@ def confirmation():
     vote_counts[random_third_restaurant_name] = {'first_preference': 5, 'second_preference': 2}
 
     # Calculate total votes for percentage calculation
-    total_votes = sum(v['first_preference'] + v['second_preference'] for v in vote_counts.values())
+    total_votes_1 = sum(v['first_preference'] for v in vote_counts.values())
+    total_votes_2 = sum( v['second_preference'] for v in vote_counts.values())
 
     # Sort the restaurants based on vote counts
     sorted_restaurants = sorted(vote_counts.items(), key=lambda item: (item[1]['first_preference'], item[1]['second_preference']), reverse=True)
@@ -255,7 +256,7 @@ def confirmation():
         "Rank 3 ": (sorted_restaurants[2][0], sorted_restaurants[2][1]),
     }
 
-    return render_template('confirmation.html', top_3_restaurants=top_3_restaurants, restaurant_details=restaurant_details, total_votes=total_votes,iframes=iframes)
+    return render_template('confirmation.html', top_3_restaurants=top_3_restaurants, restaurant_details=restaurant_details, total_votes_1=total_votes_1,total_votes_2=total_votes_2,iframes=iframes)
 
 if __name__ == '__main__':
     app.run(debug=True)
